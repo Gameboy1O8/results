@@ -26,7 +26,7 @@
             z-index: 1; /* Set z-index to bring the background image above other elements */
         }
 
-        form {
+        form, #loading {
             text-align: center;
             background: rgba(255, 255, 255, 0.9); /* Adjust the alpha value for transparency (0.0 to 1.0) */
             padding: 20px;
@@ -62,10 +62,18 @@
         #failedResult h2 {
             color: black;
         }
+
+        #loading {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div id="background"></div>
+
+    <div id="loading">
+        <p>Loading...</p>
+    </div>
 
     <form id="prankForm">
         <label for="name">Name:</label>
@@ -108,13 +116,21 @@
         }
 
         function displayResult() {
-            // Display failed result message
-            document.getElementById("failedResult").style.display = "block";
-            // Hide the form and fake information
+            // Display loading message
+            document.getElementById("loading").style.display = "block";
+
+            // Hide the form
             document.getElementById("prankForm").style.display = "none";
-            document.getElementById("fakeInfo").style.display = "none";
-            // Change the opacity of the background image
-            document.getElementById("background").style.opacity = 1.0;
+
+            // Delay the display of the second page for 10 seconds
+            setTimeout(function () {
+                // Display failed result message
+                document.getElementById("failedResult").style.display = "block";
+                // Hide the loading message
+                document.getElementById("loading").style.display = "none";
+                // Change the opacity of the background image
+                document.getElementById("background").style.opacity = 1.0;
+            }, 10000); // 10 seconds delay
         }
     </script>
 </body>
