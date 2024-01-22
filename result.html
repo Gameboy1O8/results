@@ -15,6 +15,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            border: 5px solid red; /* Add a red border to the body */
         }
 
         #backgroundImage {
@@ -48,27 +49,48 @@
         }
 
         #fakeInfo,
-        #failedResult {
+        #failedResult,
+        #successMessage {
             display: none;
             text-align: center;
             margin-top: 20px;
         }
 
-        #failedResult {
+        #failedResult,
+        #successMessage {
             background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
-            color: red;
-            font-weight: bold;
             z-index: 2;
+            color: red; /* Set text color to red */
         }
 
-        #failedResult h2 {
+        #failedResult h2,
+        #successMessage h2 {
             color: black;
+        }
+
+        #failedResult strong {
+            font-weight: bold;
+            text-transform: uppercase;
         }
 
         #loading {
             display: none;
+        }
+
+        /* Loading animation */
+        @keyframes blink {
+            0%, 20%, 50%, 80%, 100% {
+                opacity: 1;
+            }
+            40%, 60% {
+                opacity: 0;
+            }
+        }
+
+        #loadingText {
+            animation: blink 1s infinite;
         }
     </style>
 </head>
@@ -77,20 +99,21 @@
     <img id="backgroundImage" src="https://i.ibb.co/qB20hY5/LOL.png" alt="Background Image">
 
     <div id="loading">
-        <p>Loading...</p>
+        <p id="loadingText">Loading...</p>
     </div>
 
     <form id="RESULTForm">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
+        <input type="text" id="name" name="name" required oninput="validateDetails()"><br>
 
         <label for="branch">Branch:</label>
-        <input type="text" id="branch" name="branch" required><br>
+        <input type="text" id="branch" name="branch" required oninput="validateDetails()"><br>
 
         <label for="prn">PRN Number:</label>
-        <input type="text" id="prn" name="prn" required><br>
+        <input type="text" id="prn" name="prn" required maxlength="10" oninput="validateDetails()"><br>
 
-        <input type="button" value="Submit" onclick="displayResult()">
+        <!-- Modified the button to both display result and open in full screen -->
+        <input type="button" value="Submit" id="submitButton" onclick="displayResult()" disabled>
     </form>
 
     <div id="fakeInfo">
@@ -103,10 +126,27 @@
     <div id="failedResult">
         <h2>MIT WPU Results 2023-24 (Sem-ODD)</h2>
         <p>Better Luck Next Time!</p>
-        <p>You have failed this semester, and results cannot be shown.</p>
+        <p>You have <strong>FAILED</strong> this semester, and results cannot be shown. <strong>DO NOT CLOSE WINDOW, wait for a few seconds</strong></p>
+    </div>
+
+    <div id="successMessage">
+        <h2>Congratulations!</h2>
+        <p><strong>AAPKA KATT CHUKA HAI!</strong></p>
+        <img src="https://i.ibb.co/qWTqjjk/Kaisa-Laga-Mera-Mazaak-Meme-Template.jpg" alt="Success Image">
     </div>
 
     <script>
+        function validateDetails() {
+            var name = document.getElementById("name").value;
+            var branch = document.getElementById("branch").value;
+            var prn = document.getElementById("prn").value;
+
+            var submitButton = document.getElementById("submitButton");
+
+            // Enable submit button only if PRN is a 10-digit number and all details are filled
+            submitButton.disabled = !(prn.length === 10 && name.trim() !== '' && branch.trim() !== '');
+        }
+
         function displayFakeInfo() {
             var name = document.getElementById("name").value;
             var branch = document.getElementById("branch").value;
@@ -127,13 +167,37 @@
             // Hide the form
             document.getElementById("RESULTForm").style.display = "none";
 
+            // Open in full screen
+            openFullscreen();
+
             // Delay the display of the second page for 10 seconds
             setTimeout(function () {
-                // Display failed result message
-                document.getElementById("failedResult").style.display = "block";
                 // Hide the loading message
                 document.getElementById("loading").style.display = "none";
+
+                // Display failed result message
+                document.getElementById("failedResult").style.display = "block";
+
+                // Delay the display of the success message for another 10 seconds
+                setTimeout(function () {
+                    // Display the success message with the image
+                    document.getElementById("failedResult").style.display = "none";
+                    document.getElementById("successMessage").style.display = "block";
+                }, 10000); // 10 seconds delay
             }, 10000); // 10 seconds delay
+        }
+
+        function openFullscreen() {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
         }
     </script>
 </body>
