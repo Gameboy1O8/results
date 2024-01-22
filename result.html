@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prank Page</title>
+    <title>RESULT Page</title>
     <style>
         body {
             margin: 0;
@@ -75,7 +75,7 @@
         <p>Loading...</p>
     </div>
 
-    <form id="prankForm">
+    <form id="RESULTForm">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
 
@@ -111,7 +111,7 @@
             document.getElementById("fakeBranch").innerText = branch;
             document.getElementById("fakePRN").innerText = prn;
 
-            document.getElementById("prankForm").style.display = "none";
+            document.getElementById("RESULTForm").style.display = "none";
             document.getElementById("fakeInfo").style.display = "block";
         }
 
@@ -120,7 +120,7 @@
             document.getElementById("loading").style.display = "block";
 
             // Hide the form
-            document.getElementById("prankForm").style.display = "none";
+            document.getElementById("RESULTForm").style.display = "none";
 
             // Delay the display of the second page for 10 seconds
             setTimeout(function () {
