@@ -17,7 +17,6 @@
         }
 
         form {
-            position: absolute;
             text-align: center;
             background: rgba(255, 255, 255, 0.9); /* Adjust the alpha value for transparency (0.0 to 1.0) */
             padding: 20px;
@@ -28,17 +27,18 @@
             font-weight: bold;
         }
 
-        form input[type="text"] {
+        form input[type="text"], form input[type="button"] {
             font-weight: bold;
+            margin: 5px;
         }
 
-        form input[type="button"] {
-            font-weight: bold;
+        #fakeInfo {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <form>
+    <form id="prankForm">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
 
@@ -48,13 +48,28 @@
         <label for="prn">PRN Number:</label>
         <input type="text" id="prn" name="prn" required><br>
 
-        <input type="button" value="Submit" onclick="displayImage()">
+        <input type="button" value="Submit" onclick="displayFakeInfo()">
     </form>
 
+    <div id="fakeInfo">
+        <h2>Fake Information</h2>
+        <p>Name: <span id="fakeName"></span></p>
+        <p>Branch: <span id="fakeBranch"></span></p>
+        <p>PRN Number: <span id="fakePRN"></span></p>
+    </div>
+
     <script>
-        function displayImage() {
-            // Replace the image source with your desired image URL
-            document.body.style.backgroundImage = "url('https://i.ibb.co/N2QndzC/MIT-WPU-1-tif.png')";
+        function displayFakeInfo() {
+            var name = document.getElementById("name").value;
+            var branch = document.getElementById("branch").value;
+            var prn = document.getElementById("prn").value;
+
+            document.getElementById("fakeName").innerText = name;
+            document.getElementById("fakeBranch").innerText = branch;
+            document.getElementById("fakePRN").innerText = prn;
+
+            document.getElementById("prankForm").style.display = "none";
+            document.getElementById("fakeInfo").style.display = "block";
         }
     </script>
 </body>
